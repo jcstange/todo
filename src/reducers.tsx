@@ -1,4 +1,3 @@
-import { idText, textSpanContainsTextSpan } from "typescript";
 import { 
     ADD_TODO, 
     REMOVE_TODO,
