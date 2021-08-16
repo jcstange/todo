@@ -38,7 +38,7 @@ jobs:
           git config --global user.email jcstange@gmail.com
           git config --global user.name jcstange
           git status
-          git remote add origin https://${{secrets.ACCESS_TOKEN}}@github.com/jcstange/redux.git
+          git remote add origin https://${{secrets.ACCESS_TOKEN}}@github.com/jcstange/todo.git
           git checkout -b gh-pages
           git add --all
           git commit -m "gh-pages-update"
