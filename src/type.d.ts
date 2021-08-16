@@ -1,11 +1,17 @@
-type IncrementAction = {
-    type: string,
-    number: number
+type Todo = {
+    id: number,
+    isChecked: boolean,
+    description: string
 }
 
-type IncrementState = {
+type TodosAction = {
     type: string,
-    number: number
+    todo: Todo
 }
 
-type DispatchType = (args: IncrementAction) => IncrementAction
+type TodosState = {
+    type: string,
+    todos: Todo[]
+}
+
+type DispatchType = (args: TodosAction) => TodosAction 

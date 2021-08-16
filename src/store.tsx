@@ -3,7 +3,7 @@ import { incrementReducer } from './reducers'
 import thunk from 'redux-thunk'
 
 
-export const store : Store<IncrementState, IncrementAction> & { 
+export const store : Store<TodosState, TodosAction> & { 
     dispatch: DispatchType 
 } = createStore(
     incrementReducer,

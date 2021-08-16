@@ -1,21 +1,42 @@
+import { idText, textSpanContainsTextSpan } from "typescript";
 import { 
-    INCREMENT, 
-    DECREMENT 
+    ADD_TODO, 
+    REMOVE_TODO,
+    CHECK_TODO,
+    UNCHECK_TODO
 } from "./actions";
 
-const initialState : IncrementState = {
+const initialState : TodosState = {
     type: 'InitialState',
-    number: 0
+    todos: []
 }
+
 export const incrementReducer = (
-    state: IncrementState = initialState,
-    action: IncrementAction
-): IncrementState => {
+    state: TodosState = initialState,
+    action: TodosAction
+): TodosState => {
     switch (action.type) {
-        case INCREMENT:
-            return {...state, type: INCREMENT, number: state.number + 1}
-        case DECREMENT:
-            return {...state, type: DECREMENT, number: state.number - 1}
+        case ADD_TODO:
+            return {...state, 
+                type: ADD_TODO, 
+                todos: [...state.todos, action.todo]}
+        case REMOVE_TODO:
+            return {...state, 
+                type: REMOVE_TODO, 
+                todos: state.todos.filter((i) => i.id !== action.todo.id)
+            }
+        case CHECK_TODO:
+            return {...state, type: CHECK_TODO, todos: 
+                state.todos.map((i) => 
+                    i.id === action.todo.id ? {...i, isChecked: true } : i 
+                )            
+            }
+        case UNCHECK_TODO:
+            return {...state, type: UNCHECK_TODO, todos:
+                state.todos.map((i) => 
+                    i.id === action.todo.id ? {...i, isChecked: false } : i 
+                )            
+            }
     }
     return state
 }
