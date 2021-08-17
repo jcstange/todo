@@ -37,14 +37,15 @@ export const App : React.FC = () => {
         },
         input: {
             display: 'flex',
-            padding: 10,
+            paddingTop: 10,
             alignContent: 'baseline'
         },
         list: {
             display: 'inline',
-            marginLeft: 10,
-            marginRight: 10,
-            backgroundColor: '#00ff00'
+            marginLeft: 5,
+            marginRight: 5,
+            paddingLeft: 10,
+            paddingRight: 10,
         },
         textfield: {
             display: 'flex',

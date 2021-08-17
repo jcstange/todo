@@ -5,6 +5,7 @@ import { Dispatch } from 'redux'
 import { checkTodo, uncheckTodo, removeTodo } from './actions'
 import { Checkbox } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
+import './index.css'
 
 type TodoItemProps = {
     todo: Todo
