@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
-import { addTodo } from './actions'
+import { addTodo, loadTodos } from './actions'
 import { TodoListItem } from './todo'
 import { TextField } from '@material-ui/core'
 import { Add } from '@material-ui/icons'
@@ -9,18 +9,22 @@ import cookie from 'react-cookies'
 
 export const App : React.FC = () => {
 
-    var todos: Todo[] = useSelector((state:TodosState) => {
-        if(state.type === "InitialState") {
+    var todos: Todo[] = useSelector((state:TodosState) => state.todos)
+
+    var state = useSelector((state: TodosState) => state.type)
+
+    useEffect(()=>{
+        if(state === "InitialState") {
             const json : Todo[] = cookie.load('todos') as Todo[]
             console.log(`load cookie => ${json}`)
-            if (json !== null && json.length > 0) {
-                return todos = json ?? state.todos 
-            }
+            if (json !== null && json !== undefined && json.length > 0) {
+                updateTodosFromCookies(json)
+            }    
+        } else {
+            const json = JSON.stringify(todos)
+            console.log(`save cookie => ${json}`)
+            cookie.save('todos', json,{ path: '/'} ) 
         }
-        const json = JSON.stringify(state.todos)
-        console.log(`save cookie => ${json}`)
-        cookie.save('todos', json,{ path: '/'} ) 
-        return state.todos
     })
 
     console.table(useSelector((state: TodosState) => state.todos))
@@ -38,7 +42,9 @@ export const App : React.FC = () => {
         },
         list: {
             display: 'inline',
-            margin: 10
+            marginLeft: 10,
+            marginRight: 10,
+            backgroundColor: '#00ff00'
         },
         textfield: {
             display: 'flex',
@@ -56,6 +62,10 @@ export const App : React.FC = () => {
     }
 
     const dispatch: Dispatch<any> = useDispatch()
+
+    function updateTodosFromCookies(todos: Todo[]) {
+        dispatch(loadTodos(todos))
+    }
 
     function todoList() {
         return (<div>
@@ -89,6 +99,6 @@ export const App : React.FC = () => {
                 }}> 
             </Add>
         </div>
-        <div style= {styles.list}>{todoList()}</div>
+        <div style={styles.list}>{todoList()}</div>
         </div>
 }
