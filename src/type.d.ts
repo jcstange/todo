@@ -6,7 +6,8 @@ type Todo = {
 
 type TodosAction = {
     type: string,
-    todo: Todo
+    todo: Todo | null,
+    todos: Todo[] | null
 }
 
 type TodosState = {

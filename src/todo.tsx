@@ -14,11 +14,13 @@ export const TodoListItem: React.FC<TodoItemProps> = ({ todo }) => {
     const styles = {
         item: {
             display: 'flex',
+            marginBottom: 5,
             padding: 12,
             borderStyle: 'none',
             borderWidth: 2,
             borderRadius: 5,
-            justifyContent: 'center',
+            justifyContent: 'space-between',
+            alignContent: 'baseline',
             backgroundColor: '#eaeaea'
         },
         checkbox: {
@@ -32,6 +34,7 @@ export const TodoListItem: React.FC<TodoItemProps> = ({ todo }) => {
         description: {
             margin: 20,
             color: '#333333',
+            width: '75%',
             fontFamily: 'Roboto'
         },
         removeTodo: {

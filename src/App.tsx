@@ -3,32 +3,55 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 import { addTodo } from './actions'
 import { TodoListItem } from './todo'
-import { TextField, Button } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
+import { Add } from '@material-ui/icons'
+import cookie from 'react-cookies'
 
 export const App : React.FC = () => {
 
-    const todos: Todo[] = useSelector((state:TodosState) => state.todos)
+    var todos: Todo[] = useSelector((state:TodosState) => {
+        if(state.type === "InitialState") {
+            const json : Todo[] = cookie.load('todos') as Todo[]
+            console.log(`load cookie => ${json}`)
+            if (json !== null && json.length > 0) {
+                return todos = json ?? state.todos 
+            }
+        }
+        const json = JSON.stringify(state.todos)
+        console.log(`save cookie => ${json}`)
+        cookie.save('todos', json,{ path: '/'} ) 
+        return state.todos
+    })
 
     console.table(useSelector((state: TodosState) => state.todos))
 
     const styles = {
         app: {
-            display: "inline"
+            display: 'block',
+            width:'90%',
+            marginLeft: '5%'
         },
         input: {
             display: 'flex',
-            flex:'space-between',
             padding: 10,
+            alignContent: 'baseline'
         },
         list: {
-            display: 'inline-block',
+            display: 'inline',
             margin: 10
         },
+        textfield: {
+            display: 'flex',
+            width: '100%',
+            marginRight: 10
+        },
         button: {
-            borderWidth: 3,
-            borderColor:'#000',
-            backgroundColor: '#00FF00',
-            padding: 10,
+            borderStyle: 'none',
+            borderWidth: 1,
+            borderRadius: 5,
+            backgroundColor: '#3A3A3A',
+            color: '#FFF',
+            padding: 15,
         }
     }
 
@@ -43,10 +66,7 @@ export const App : React.FC = () => {
     function createTodo() : Todo | null {
         const element : HTMLInputElement = document.getElementsByName('todo')[0] as HTMLInputElement
         if(element === null) return null
-        console.log("element is not null")
         if(element.value === null) return null
-        console.log("element.value is not null")
-        console.log(element.value)
         if(element.value.length > 0) {
             return {
                 id: todos.length > 0 ? Math.max(...todos.map((i) => i.id)) + 1 : 0,
@@ -60,15 +80,14 @@ export const App : React.FC = () => {
 
     return <div style={styles.app}>
         <div style= {styles.input}>
-            <TextField type="text" id="todo" name="todo" style={{marginRight: 10}}/>
-            <Button 
+            <TextField type="text" label="TODO" variant="outlined" id="todo" name="todo" style={styles.textfield}/>
+            <Add 
                 style= {styles.button} 
                 onClick={() => {
                     const todo = createTodo()
                     if(todo !== null) dispatch(addTodo(todo))
-                }}>
-                TODO 
-            </Button>
+                }}> 
+            </Add>
         </div>
         <div style= {styles.list}>{todoList()}</div>
         </div>
