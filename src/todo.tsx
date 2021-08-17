@@ -3,6 +3,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
 import { checkTodo, uncheckTodo, removeTodo } from './actions'
+import { Checkbox } from '@material-ui/core'
+import { Delete } from '@material-ui/icons'
 
 type TodoItemProps = {
     todo: Todo
@@ -12,41 +14,43 @@ export const TodoListItem: React.FC<TodoItemProps> = ({ todo }) => {
     const styles = {
         item: {
             display: 'flex',
-            padding: 12
+            padding: 12,
+            borderStyle: 'none',
+            borderWidth: 2,
+            borderRadius: 5,
+            justifyContent: 'center',
+            backgroundColor: '#eaeaea'
         },
         checkbox: {
             margin: 10,
+            borderStyle: 'inset',
             borderColor: '#000',
             borderWidth: 2,
             borderRadius: 1,
             padding: 10 
         },
         description: {
-            margin: 10
+            margin: 20,
+            color: '#333333',
+            fontFamily: 'Roboto'
         },
-        removeTodo: {}
+        removeTodo: {
+            margin: 20
+        }
     }
 
     const dispatch: Dispatch<any> = useDispatch()
 
     return (
         <div style={styles.item}>
-            {todo.isChecked 
-            ? <div style={styles.checkbox}
-                onClick={() => dispatch(uncheckTodo(todo))}>
-                    Checked
-            </div> 
-            : <div style={styles.checkbox}
-                onClick={() => dispatch(checkTodo(todo))}>
-                    Unchecked
-            </div> }
+            <Checkbox checked={todo.isChecked} onClick={() => 
+                todo.isChecked ? dispatch(uncheckTodo(todo)) : dispatch(checkTodo(todo))}/>
             <div style={styles.description}>
                 {todo.description}
             </div>
-            <div style={styles.removeTodo}
+            <Delete style={styles.removeTodo}
                 onClick={() => dispatch(removeTodo(todo))}>
-                    Remove
-            </div>
+            </Delete>
         </div>
     )
 }

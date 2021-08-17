@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Dispatch } from 'redux'
 import { addTodo } from './actions'
 import { TodoListItem } from './todo'
+import { TextField, Button } from '@material-ui/core'
 
 export const App : React.FC = () => {
 
@@ -15,7 +16,13 @@ export const App : React.FC = () => {
             display: "inline"
         },
         input: {
-            display: 'flex'
+            display: 'flex',
+            flex:'space-between',
+            padding: 10,
+        },
+        list: {
+            display: 'inline-block',
+            margin: 10
         },
         button: {
             borderWidth: 3,
@@ -53,16 +60,16 @@ export const App : React.FC = () => {
 
     return <div style={styles.app}>
         <div style= {styles.input}>
-            <input type="text" name="todo" />
-            <div 
+            <TextField type="text" id="todo" name="todo" style={{marginRight: 10}}/>
+            <Button 
                 style= {styles.button} 
                 onClick={() => {
                     const todo = createTodo()
                     if(todo !== null) dispatch(addTodo(todo))
                 }}>
-                New Item 
-            </div>
+                TODO 
+            </Button>
         </div>
-        <div style= {{...styles.button, backgroundColor: '#9999FF'}}>{todoList()}</div>
+        <div style= {styles.list}>{todoList()}</div>
         </div>
 }
